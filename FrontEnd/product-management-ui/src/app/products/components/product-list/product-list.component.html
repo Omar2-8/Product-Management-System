@@ -1,0 +1,56 @@
+<div class="card">
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <div class="flex justify-between mb-4">
+        <h2 class="text-2xl font-bold">Products</h2>
+        <button pButton label="Add Product" 
+                icon="pi pi-plus" 
+                routerLink="/products/create"
+                class="p-button-success"></button>
+    </div>
+
+    <!-- Price Range Filter -->
+    <div class="mb-4">
+        <p-slider [(ngModel)]="priceRange" [min]="0" [max]="1000" [step]="10" [range]="true"
+                  [style]="{'width':'100%'}" 
+                  value="[0, 1000]" 
+                  (onChange)="filterByPrice()"></p-slider>
+        <div class="flex justify-between">
+            <span>{{ minPrice | currency }}</span>
+            <span>{{ maxPrice | currency }}</span>
+        </div>
+    </div>
+
+    <p-table [value]="filteredProducts" [paginator]="true" [rows]="10" [responsive]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Created Date</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.id}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.price | currency}}</td>
+                <td>{{product.createdDate | date}}</td>
+                <td>
+                    <div class="flex gap-2">
+                        <button pButton icon="pi pi-pencil" 
+                                class="p-button-rounded p-button-warning"
+                                (click)="onEdit(product.id)"></button>
+                        <button pButton icon="pi pi-trash" 
+                                class="p-button-rounded p-button-danger"
+                                (click)="onDelete(product.id)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
